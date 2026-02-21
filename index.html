@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price & Petals | Where Beauty Meets the Best Price</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --petal-pink: #F9D6E1;
+            --sage-green: #9CAF88;
+            --dark-charcoal: #333333;
+            --soft-cream: #FDFCFB;
+            --deep-rose: #d4a5a5;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--soft-cream);
+            color: var(--dark-charcoal);
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--deep-rose);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-charcoal);
+            margin-left: 30px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--deep-rose);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F9D6E1 100%);
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            margin-bottom: 15px;
+            color: var(--dark-charcoal);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 45px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Search Bar Area */
+        .search-area {
+            width: 100%;
+            max-width: 750px;
+            position: relative;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .search-area:focus-within {
+            transform: scale(1.02);
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 28px 40px;
+            border-radius: 60px;
+            border: 2px solid rgba(212, 165, 165, 0.3);
+            font-size: 18px;
+            /* Increased for aesthetics */
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+            outline: none;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 12px;
+            top: 10px;
+            background-color: var(--sage-green);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(156, 175, 136, 0.4);
+        }
+
+        .search-btn:hover {
+            background-color: #7d8f6d;
+            transform: translateY(-1px);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--petal-pink);
+            padding: 14px 30px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .action-btn:hover {
+            background-color: white;
+            border-color: var(--deep-rose);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Category Section Overlay */
+        .categories {
+            padding: 40px 80px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            max-width: 1100px;
+            margin: -60px auto 40px auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            border: 1px solid transparent;
+        }
+
+        .cat-card:hover {
+            border-color: var(--petal-pink);
+            transform: scale(1.05);
+        }
+
+        .cat-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* Feature Highlights Section */
+        .features {
+            padding: 100px 80px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            border-color: var(--petal-pink);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #777;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="logo">Price & Petals 🌸</a>
+        <div class="nav-links" id="navLinks">
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="price-history.html">Price History</a>
+            <a href="login.html" id="authBtn" class="action-btn"
+                style="text-decoration:none; margin-left: 20px;">Login</a>
+            <div id="profileWrap" style="display:none; align-items:center; margin-left:16px;">
+                <button id="profileBtn" title="Profile" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:10px;">
+                    <div id="avatar" style="width:38px; height:38px; border-radius:50%; background:#f0cbd1; display:flex; align-items:center; justify-content:center; color:#6a3a3a; font-weight:700;"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1 id="welcomeGreeting">Where Beauty Meets the Best Price</h1>
+        <p>Your sanctuary for comparing the best in Indian beauty.</p>
+
+        <div class="search-area">
+            <input id="searchInput" type="text" class="search-bar" placeholder="Search products e.g. sunscreen, moisturizer...">
+            <button id="searchBtn" class="search-btn">🔍 Compare Now</button>
+        </div>
+    </section>
+
+    <section class="categories">
+        <a href="sunscreens.html" style="text-decoration:none; color:inherit;">
+            <div class="cat-card"><span class="cat-icon">☀️</span><strong>Sunscreen</strong></div>
+        </a>
+        <a href="moisturizers.html" style="text-decoration:none; color:inherit;">
+            <div class="cat-card"><span class="cat-icon">💧</span><strong>Moisturizer</strong></div>
+        </a>
+        <a href="lipcare.html" style="text-decoration:none; color:inherit;">
+            <div class="cat-card"><span class="cat-icon">💋</span><strong>Lip Care</strong></div>
+        </a>
+        <a href="bodylotion.html" style="text-decoration:none; color:inherit;">
+            <div class="cat-card"><span class="cat-icon">🧴</span><strong>Body Lotion</strong></div>
+        </a>
+        <a href="haircare.html" style="text-decoration:none; color:inherit;">
+            <div class="cat-card"><span class="cat-icon">🧖‍♀️</span><strong>Hair Care</strong></div>
+        </a>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <span class="feature-icon">📊</span>
+            <h3>Real-Time Comparison</h3>
+            <p>We sync live prices from Amazon, Meesho, and official brand sites so you never overpay.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🔬</span>
+            <h3>Ingredient Analysis</h3>
+            <p>Smart filters that break down what's inside, helping you choose products safe for your skin type.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🔔</span>
+            <h3>Price Drop Alerts</h3>
+            <p>Get notified the second your favorite products hit their lowest price ever.</p>
+        </div>
+    </section>
+
+    <script>
+        // Search redirect: navigate to compare page with query
+        (function(){
+            const searchBtn = document.getElementById('searchBtn');
+            const searchInput = document.getElementById('searchInput');
+            if(!searchBtn || !searchInput) return;
+
+            function doSearch(){
+                const q = searchInput.value.trim();
+                if(!q) return alert('Please enter a product to compare');
+                window.location.href = `compare.html?q=${encodeURIComponent(q)}`;
+            }
+
+            searchBtn.addEventListener('click', doSearch);
+            // allow Enter key in input to trigger search
+            searchInput.addEventListener('keydown', function(e){
+                if(e.key === 'Enter'){
+                    e.preventDefault();
+                    doSearch();
+                }
+            });
+        })();
+
+        // For the hackathon, we can check localStorage to see if the user just logged in
+        // You can set this in your login.html script after a successful fetch
+        const userEmail = localStorage.getItem('userEmail');
+        const userName = localStorage.getItem('userName');
+        if (userEmail) {
+            document.getElementById('welcomeGreeting').innerText = `Welcome Back, Beauty! 🌸`;
+            const authBtn = document.getElementById('authBtn');
+            authBtn.innerText = 'Logout';
+            authBtn.href = '#';
+            authBtn.onclick = () => {
+                localStorage.clear();
+                window.location.reload();
+            };
+
+            // show profile avatar
+            const profileWrap = document.getElementById('profileWrap');
+            const avatar = document.getElementById('avatar');
+            profileWrap.style.display = 'flex';
+            // build initials
+            let initials = '';
+            if (userName) {
+                const parts = userName.trim().split(' ');
+                initials = parts.length === 1 ? parts[0].charAt(0).toUpperCase() : (parts[0].charAt(0) + parts[parts.length-1].charAt(0)).toUpperCase();
+            } else {
+                initials = userEmail.split('@')[0].charAt(0).toUpperCase();
+            }
+            avatar.innerText = initials;
+
+            // simple profile menu on click
+            const profileBtn = document.getElementById('profileBtn');
+            profileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const existing = document.getElementById('profileMenu');
+                if (existing) { existing.remove(); return; }
+                const menu = document.createElement('div');
+                menu.id = 'profileMenu';
+                menu.style.position = 'absolute';
+                menu.style.right = '80px';
+                menu.style.top = '70px';
+                menu.style.background = 'white';
+                menu.style.border = '1px solid #eee';
+                menu.style.borderRadius = '8px';
+                menu.style.boxShadow = '0 8px 20px rgba(0,0,0,0.08)';
+                menu.style.padding = '8px';
+                menu.style.minWidth = '140px';
+                menu.style.zIndex = '2000';
+
+                const prof = document.createElement('a');
+                prof.href = 'profile.html';
+                prof.innerText = 'Profile';
+                prof.style.display = 'block';
+                prof.style.padding = '8px 12px';
+                prof.style.color = '#333';
+                prof.style.textDecoration = 'none';
+
+                const logout = document.createElement('a');
+                logout.href = '#';
+                logout.innerText = 'Logout';
+                logout.style.display = 'block';
+                logout.style.padding = '8px 12px';
+                logout.style.color = '#333';
+                logout.style.textDecoration = 'none';
+                logout.onclick = (ev) => { ev.preventDefault(); localStorage.clear(); window.location.reload(); };
+
+                menu.appendChild(prof);
+                menu.appendChild(logout);
+                document.body.appendChild(menu);
+                // click outside to close
+                setTimeout(() => {
+                    const onDoc = (evt) => { if (!menu.contains(evt.target) && !profileBtn.contains(evt.target)) { menu.remove(); document.removeEventListener('click', onDoc); } };
+                    document.addEventListener('click', onDoc);
+                }, 0);
+            });
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Profile | Price & Petals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root{--accent:#d4a5a5;--green:#9CAF88;--muted:#8b8b8b}
+        body{font-family:Inter, Arial, sans-serif;background:linear-gradient(180deg,#fff 0%,#f9f7f8 100%);margin:0;color:#222}
+        .wrap{max-width:1100px;margin:40px auto;padding:24px}
+        .profile-hero{display:flex;gap:28px;align-items:center;background:#fff;border-radius:14px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,0.06)}
+        .left{width:260px;text-align:center}
+        .avatar{width:120px;height:120px;border-radius:50%;background:#f7e6e9;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#7a3b3b;font-size:32px}
+        .upload{margin-top:12px;display:block}
+        .name{font-family:Playfair Display, serif;font-size:22px;margin:12px 0 4px}
+        .email{color:var(--muted);font-size:14px}
+        .actions{margin-top:14px;display:flex;gap:8px;justify-content:center}
+        .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+        .btn-primary{background:var(--green);color:#fff}
+        .btn-ghost{background:transparent;border:1px solid #eee}
+
+        .right{flex:1}
+        .tabs{display:flex;gap:12px;border-bottom:1px solid #f0f0f0;margin-bottom:18px}
+        .tab{padding:10px 14px;cursor:pointer;color:var(--muted);border-radius:8px}
+        .tab.active{background:linear-gradient(90deg,#fff,#fff);color:#222;border:1px solid #f0f0f0}
+
+        .panel{background:#fff;padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.04)}
+        .field{margin-bottom:12px}
+        label{display:block;font-weight:600;margin-bottom:6px}
+        input[type=text]{width:100%;padding:10px;border-radius:8px;border:1px solid #eee}
+
+        .muted{color:var(--muted)}
+        @media(max-width:800px){.profile-hero{flex-direction:column}.left{width:100%}}
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="profile-hero">
+        <div class="left">
+            <div id="avatarEl" class="avatar">BP</div>
+            <input id="avatarInput" type="file" accept="image/*" style="display:none">
+            <div class="upload">
+                <button id="changeAvatar" class="btn btn-ghost">Change Photo</button>
+            </div>
+            <div class="name" id="profileName">Your Name</div>
+            <div class="email" id="profileEmail">you@example.com</div>
+            <div class="actions">
+                <button id="logoutBtn" class="btn" style="background:#e07b7b;color:#fff">Logout</button>
+                <a href="index.html" class="btn btn-ghost">Home</a>
+            </div>
+        </div>
+        <div class="right">
+            <div class="tabs" id="tabs">
+                <div class="tab active" data-tab="overview">Overview</div>
+                <div class="tab" data-tab="orders">Orders</div>
+                <div class="tab" data-tab="account">Account</div>
+            </div>
+
+            <div class="panel" id="overview">
+                <h3 style="margin-top:0">Welcome</h3>
+                <p class="muted">This is your Price & Petals profile. Use the Account tab to edit details or upload a photo.</p>
+                <div style="margin-top:12px">
+                    <strong>Member since:</strong> <span id="memberSince">—</span>
+                </div>
+            </div>
+
+            <div class="panel" id="orders" style="display:none">
+                <h3 style="margin-top:0">Recent Orders</h3>
+                <p class="muted">No orders yet. When you purchase, orders will appear here.</p>
+            </div>
+
+            <div class="panel" id="account" style="display:none">
+                <h3 style="margin-top:0">Account Details</h3>
+                <div class="field">
+                    <label for="displayName">Display name</label>
+                    <input id="displayName" type="text">
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <div id="emailText" class="muted"></div>
+                </div>
+                <div style="margin-top:8px">
+                    <button id="saveBtn" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // helper to compute initials
+    function getInitials(name, email){
+        if(name){
+            const parts = name.trim().split(' ');
+            if(parts.length===1) return parts[0].charAt(0).toUpperCase();
+            return (parts[0].charAt(0)+parts[parts.length-1].charAt(0)).toUpperCase();
+        }
+        if(email) return email.split('@')[0].charAt(0).toUpperCase();
+        return 'U';
+    }
+
+    const avatarEl = document.getElementById('avatarEl');
+    const avatarInput = document.getElementById('avatarInput');
+    const changeAvatar = document.getElementById('changeAvatar');
+
+    const storedAvatar = localStorage.getItem('userAvatar');
+    const storedName = localStorage.getItem('userName') || '';
+    const storedEmail = localStorage.getItem('userEmail') || '';
+
+    function renderProfile(){
+        document.getElementById('profileName').innerText = storedName || 'Your Name';
+        document.getElementById('profileEmail').innerText = storedEmail || 'you@example.com';
+        document.getElementById('displayName').value = storedName || '';
+        document.getElementById('emailText').innerText = storedEmail || 'you@example.com';
+        if(localStorage.getItem('userAvatar')){
+            avatarEl.style.backgroundImage = 'url(' + localStorage.getItem('userAvatar') + ')';
+            avatarEl.style.backgroundSize = 'cover';
+            avatarEl.innerText = '';
+        } else {
+            avatarEl.style.backgroundImage = '';
+            avatarEl.innerText = getInitials(storedName, storedEmail);
+        }
+        const since = localStorage.getItem('memberSince') || new Date().toLocaleDateString();
+        if(!localStorage.getItem('memberSince')) localStorage.setItem('memberSince', since);
+        document.getElementById('memberSince').innerText = localStorage.getItem('memberSince');
+    }
+
+    renderProfile();
+
+    changeAvatar.addEventListener('click', () => avatarInput.click());
+    avatarInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = function(evt){
+            try{ localStorage.setItem('userAvatar', evt.target.result); } catch(err){ alert('Unable to save image locally'); return; }
+            renderProfile();
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // tabs
+    document.getElementById('tabs').addEventListener('click', (e)=>{
+        const t = e.target.closest('.tab');
+        if(!t) return;
+        document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+        t.classList.add('active');
+        const tab = t.dataset.tab;
+        ['overview','orders','account'].forEach(id=>document.getElementById(id).style.display = id===tab? 'block':'none');
+    });
+
+    // save display name
+    document.getElementById('saveBtn').addEventListener('click', ()=>{
+        const v = document.getElementById('displayName').value.trim();
+        if(!v) return alert('Please enter a name');
+        localStorage.setItem('userName', v);
+        document.getElementById('profileName').innerText = v;
+        avatarEl.innerText = getInitials(v, storedEmail);
+        alert('Saved locally');
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', (e)=>{
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = 'index.html';
+    });
+
+</script>
+</body>
+</html>

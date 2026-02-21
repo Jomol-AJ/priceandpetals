@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Price & Petals</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --petal-pink: #F9D6E1;
+            --sage-green: #9CAF88;
+            --dark-charcoal: #333333;
+            --soft-cream: #FDFCFB;
+            --deep-rose: #d4a5a5;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--soft-cream);
+            color: var(--dark-charcoal);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 40px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--deep-rose);
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        /* Google Form Embed Styling */
+        .form-wrapper {
+            background: white;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--petal-pink);
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 700px;
+            /* Adjust based on your form length */
+            border: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="logo">Price & Petals 🌸</a>
+        <a href="index.html" style="text-decoration: none; color: var(--dark-charcoal); font-weight: 600;">← Back</a>
+    </header>
+
+    <div class="container">
+        <h1>Let’s Bloom Together</h1>
+        <p>Have a concern, a brand suggestion, or just want to say hi? We’re all ears.</p>
+
+        <div class="form-wrapper">
+            <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLSdc_AmR_4sYjKXhIHRBUwksJnHpF7IMd_9N9Flt3Stpcrockg/viewform?usp=publish-editor"
+                title="Contact Form">
+                Loading…
+            </iframe>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Price & Petals. Crafted for your glow.
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Price & Petals</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --petal-pink: #F9D6E1;
+            --sage-green: #9CAF88;
+            --dark-charcoal: #333333;
+            --soft-cream: #FDFCFB;
+            --deep-rose: #d4a5a5;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--soft-cream);
+            color: var(--dark-charcoal);
+            line-height: 1.8;
+        }
+
+        /* Simple Header */
+        header {
+            padding: 40px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--deep-rose);
+            text-decoration: none;
+        }
+
+        .back-home {
+            text-decoration: none;
+            color: var(--dark-charcoal);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* About Layout */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .story-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .story-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .highlight-text {
+            font-size: 24px;
+            color: var(--deep-rose);
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            margin: 40px 0;
+            line-height: 1.4;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .content-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            border-bottom: 2px solid var(--petal-pink);
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .content-section p {
+            color: #555;
+            font-size: 16px;
+        }
+
+        /* Aesthetic Image Placeholder */
+        .image-box {
+            width: 100%;
+            height: 400px;
+            background: var(--petal-pink);
+            border-radius: 40px 0 40px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 60px;
+            overflow: hidden;
+            border: 8px solid white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 80px 0;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="logo">Price & Petals 🌸</a>
+        <a href="index.html" class="back-home">← Back to Shop</a>
+    </header>
+
+    <div class="container">
+        <div class="story-header">
+            <h1>Our Story</h1>
+            <p>Rooted in transparency, grown for your glow.</p>
+        </div>
+
+        <div class="image-box">
+            <span style="font-family: 'Playfair Display'; font-size: 20px; color: white;">Cultivating Beauty
+                Transparency</span>
+        </div>
+
+        <p class="highlight-text">
+            "We believe that looking your best shouldn't be a luxury dictated by a price tag. It should be a choice made
+            with clarity."
+        </p>
+
+        <div class="content-grid">
+            <div class="content-section">
+                <h2>The Problem</h2>
+                <p>The beauty market is a jungle. Prices fluctuate daily, hidden discounts are everywhere, and finding
+                    the best deal for your favorite serum can feel like a full-time job.</p>
+            </div>
+            <div class="content-section">
+                <h2>The Solution</h2>
+                <p>Price & Petals was born to be your personal beauty scout. We crawl the web's biggest stores—Amazon,
+                    Meesho, and direct brand sites—to bring you the lowest prices in real-time.</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 80px; text-align: center;">
+            <div class="content-section" style="max-width: 600px; margin: 0 auto;">
+                <h2>Our Mission</h2>
+                <p>To empower the Indian beauty community with data-driven shopping. Whether it's a <strong>Blur
+                        India</strong> tint or <strong>WishCare</strong> sunscreen, we ensure your petals—your unique
+                    beauty—are nourished at the fairest price possible.</p>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2026 Price & Petals. All rights reserved.
+        </footer>
+    </div>
+
+</body>
+
+</html>

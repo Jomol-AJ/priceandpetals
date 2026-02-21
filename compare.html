@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Compare Prices | Price & Petals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,Arial,sans-serif;margin:0;background:#fff}
+    header{padding:18px 40px;border-bottom:1px solid #f0f0f0}
+    .container{max-width:1000px;margin:28px auto;padding:0 20px}
+    h1{font-family:Playfair Display, serif;margin:8px 0}
+    .search-info{color:#666;margin-bottom:14px}
+    table{width:100%;border-collapse:collapse;background:#fff}
+    th,td{padding:12px 10px;border-bottom:1px solid #f5f5f5;text-align:left}
+    th{color:#777;font-weight:700}
+    tr:hover{background:#fafafa}
+    .price{font-weight:800}
+    .site-link{color:#1a73e8;text-decoration:none}
+    .empty{padding:40px;text-align:center;color:#777}
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" style="text-decoration:none;color:inherit">← Back</a>
+  </header>
+  <div class="container">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
+      <img id="productImg" src="" alt="product" style="width:80px;height:80px;object-fit:cover;border-radius:8px;display:none">
+      <div>
+        <h1 id="title">Price Comparison</h1>
+        <div class="search-info" id="searchInfo">Loading...</div>
+      </div>
+    </div>
+
+    <div id="results"></div>
+  </div>
+
+<script>
+  function qParam(name){
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name) || '';
+  }
+
+  const q = qParam('q').trim();
+  const title = document.getElementById('title');
+  const searchInfo = document.getElementById('searchInfo');
+  const resultsEl = document.getElementById('results');
+
+  if(!q){
+    title.innerText = 'No product specified';
+    searchInfo.innerText = 'Please enter a product from the home search.';
+    resultsEl.innerHTML = '<div class="empty">Try searching for "sunscreen spf 50" or "niacinamide serum" on the home page.</div>';
+  } else {
+    title.innerText = `Compare: ${q}`;
+    searchInfo.innerText = `Showing price results for "${q}" across popular marketplaces.`;
+
+    fetch(`/api/compare?q=${encodeURIComponent(q)}`)
+      .then(r => r.json())
+      .then(data => {
+        if(!data || !data.results || data.results.length===0){
+          resultsEl.innerHTML = '<div class="empty">No results found.</div>';
+          return;
+        }
+
+        // show product image/title
+        if(data.productImage){
+          const img = document.getElementById('productImg');
+          img.src = data.productImage;
+          img.style.display = 'block';
+        }
+        const titleEl = document.getElementById('title');
+        titleEl.innerText = data.productTitle || `Compare: ${data.product}`;
+
+        // sort ascending by price
+        data.results.sort((a,b)=>a.price - b.price);
+
+        let html = '<table><thead><tr><th>Product</th><th>Marketplace</th><th>Price</th><th>Link</th></tr></thead><tbody>';
+        data.results.forEach(r => {
+          html += `<tr>` +
+                  `<td style="width:240px"><div style="display:flex;align-items:center;gap:12px"><img src="${data.productImage}" style="width:56px;height:56px;object-fit:cover;border-radius:6px" alt="thumb"><div>${data.productTitle || data.product}</div></div></td>` +
+                  `<td>${r.site}</td><td class="price">₹${r.price}</td><td><a class="site-link" target="_blank" rel="noopener" href="${r.url}">View on ${r.site}</a></td>` +
+                  `</tr>`;
+        });
+        html += '</tbody></table>';
+        resultsEl.innerHTML = html;
+      })
+      .catch(err => {
+        console.error(err);
+        resultsEl.innerHTML = '<div class="empty">Error fetching results. Try again later.</div>';
+      });
+  }
+</script>
+</body>
+</html>

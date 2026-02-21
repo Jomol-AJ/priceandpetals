@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price History | Price & Petals</title>
+    <!-- Load Chart.js from local node_modules -->
+    <script src="/chart.js/dist/chart.umd.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --petal-pink: #F9D6E1;
+            --sage-green: #9CAF88;
+            --dark-charcoal: #333333;
+            --soft-cream: #FDFCFB;
+            --deep-rose: #d4a5a5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--soft-cream);
+            color: var(--dark-charcoal);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--deep-rose);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-charcoal);
+            margin-left: 30px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--deep-rose);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: var(--dark-charcoal);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            padding: 12px 16px;
+            border-radius: 25px;
+            border: 2px solid var(--petal-pink);
+            font-size: 14px;
+            width: 300px;
+        }
+
+        .search-box button {
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: none;
+            background: var(--sage-green);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .search-box button:hover {
+            background: #7d8f6d;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #999;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .stat-card .value {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--deep-rose);
+            font-weight: bold;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+            height: 400px;
+            margin-bottom: 30px;
+        }
+
+        .chart-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--dark-charcoal);
+        }
+
+        .table-container {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th {
+            background: #f8f8f8;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        table tr:hover {
+            background: #fafafa;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--sage-green);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--deep-rose);
+        }
+
+        .error {
+            background: #ffe0e0;
+            color: #c33;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background: #e0ffe0;
+            color: #0c0;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-section {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .search-box input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Price & Petals 🌸</a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+
+        <div class="header-section">
+            <h1>Price History Tracker</h1>
+            <div class="search-box">
+                <input id="productSearch" type="text" placeholder="Search product..." />
+                <button onclick="searchProduct()">Search</button>
+            </div>
+        </div>
+
+        <div id="messageArea"></div>
+
+        <div id="content" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Current Price</h3>
+                    <div class="value" id="currentPrice">₹0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Lowest Price</h3>
+                    <div class="value" id="lowestPrice">₹0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Highest Price</h3>
+                    <div class="value" id="highestPrice">₹0</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Price Trend Over Time</div>
+                <canvas id="priceChart"></canvas>
+            </div>
+
+            <div class="table-container">
+                <h3 style="margin-bottom: 16px;">Price History Details</h3>
+                <table id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Price (₹)</th>
+                            <th>Site</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="noData" style="display: none;" class="empty-state">
+            <p>No price history found. Search for a product to get started.</p>
+        </div>
+    </div>
+
+    <script>
+        let chart = null;
+
+        async function searchProduct() {
+            const query = document.getElementById('productSearch').value.trim();
+            if (!query) {
+                showMessage('Please enter a product name', 'error');
+                return;
+            }
+
+            try {
+                console.log('🔍 Searching for product:', query);
+                
+                // Call GET endpoint with product name as URL parameter
+                const response = await fetch(`/api/products/search/${encodeURIComponent(query)}`);
+                const data = await response.json();
+                
+                console.log('📦 Search response:', data);
+
+                if (!response.ok) {
+                    showMessage(`❌ Error: ${data.error || 'Unknown error'}`, 'error');
+                    document.getElementById('content').style.display = 'none';
+                    document.getElementById('noData').style.display = 'block';
+                    return;
+                }
+
+                if (data.success && data.products && data.products.length > 0) {
+                    showMessage(`✅ Found ${data.count} product(s): ${data.products[0].name}`, 'success');
+                    displayProducts(data.products);
+                    document.getElementById('content').style.display = 'block';
+                    document.getElementById('noData').style.display = 'none';
+                } else {
+                    showMessage(`ℹ️ No products found for "${query}". You can add new products via the API.`, 'error');
+                    document.getElementById('content').style.display = 'none';
+                    document.getElementById('noData').style.display = 'block';
+                }
+            } catch (err) {
+                console.error('❌ Search error:', err);
+                showMessage(`❌ Network error: ${err.message}`, 'error');
+                document.getElementById('content').style.display = 'none';
+                document.getElementById('noData').style.display = 'block';
+            }
+        }
+
+        async function fetchPriceHistory(productId, productName) {
+            try {
+                console.log('📊 Fetching history for product:', productId);
+                const response = await fetch(`/api/products/${productId}/history`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    console.log('✅ History data:', data);
+                    displayPriceHistory(data);
+                    document.getElementById('content').style.display = 'block';
+                    document.getElementById('noData').style.display = 'none';
+                } else {
+                    showMessage(`⚠️ No price history found for this product`, 'error');
+                    document.getElementById('content').style.display = 'none';
+                    document.getElementById('noData').style.display = 'block';
+                }
+            } catch (err) {
+                console.error('❌ Fetch history error:', err);
+                showMessage(`❌ Error fetching price history: ${err.message}`, 'error');
+                document.getElementById('content').style.display = 'none';
+                document.getElementById('noData').style.display = 'block';
+            }
+        }
+
+        function displayProducts(products) {
+            // Display first product's info (simplified for now)
+            const product = products[0];
+            document.getElementById('currentPrice').innerText = `₹${product.price.toFixed(2)}`;
+            document.getElementById('lowestPrice').innerText = `₹${product.price.toFixed(2)}`;
+            document.getElementById('highestPrice').innerText = `₹${product.price.toFixed(2)}`;
+            
+            // Render simple table
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            products.forEach(p => {
+                const row = document.createElement('tr');
+                const date = new Date(p.date).toLocaleString();
+                row.innerHTML = `
+                    <td>${date}</td>
+                    <td><strong>₹${p.price.toFixed(2)}</strong></td>
+                    <td>${p.store || 'Unknown'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Create simple chart data
+            const ctx = document.getElementById('priceChart');
+            if (ctx && products.length > 0) {
+                renderChart(
+                    products.map(p => new Date(p.date).toLocaleDateString()),
+                    products.map(p => p.price)
+                );
+            }
+        }
+
+        function renderChart(labels, prices) {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+
+            if (chart) {
+                chart.destroy();
+            }
+
+            if (!labels || labels.length === 0) {
+                console.warn('⚠️ No chart data available');
+                return;
+            }
+
+            console.log('📈 Rendering chart with', labels.length, 'data points');
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Price (₹)',
+                        data: prices,
+                        borderColor: '#d4a5a5',
+                        backgroundColor: 'rgba(244, 205, 225, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#d4a5a5',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: { font: { size: 14 }, color: '#666' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: { color: '#999' },
+                            grid: { color: '#f0f0f0' }
+                        },
+                        x: {
+                            ticks: { color: '#999' },
+                            grid: { color: '#f0f0f0' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function showMessage(msg, type) {
+            const area = document.getElementById('messageArea');
+            area.innerHTML = `<div class="${type}">${msg}</div>`;
+            setTimeout(() => { area.innerHTML = ''; }, 4000);
+        }
+
+        // Demo: allow Enter key to search
+        window.addEventListener('load', () => {
+            document.getElementById('productSearch').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    searchProduct();
+                }
+            });
+            console.log('✅ Price history page loaded. Try searching for a product!');
+        });
+    </script>
+</body>
+</html>

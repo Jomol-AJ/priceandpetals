@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Lotion | Price & Petals</title>
+    <style>
+        :root {
+            /* Golden & Honey Theme for Body Care */
+            --honey-gold: #D4A017;
+            --cream-bg: #FFFDF5;
+            --soft-gold: #F9F1D6;
+            --amazon-orange: #FF9900;
+            --nykaa-pink: #fc2779;
+            --blinkit-yellow: #f8ff31;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--cream-bg); margin: 0; padding: 20px; color: #333; }
+        
+        .container { max-width: 1200px; margin: auto; }
+        h1 { text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 10px; color: var(--honey-gold); }
+        p.subtitle { text-align: center; color: #777; margin-bottom: 30px; }
+
+        /* Filter Sections */
+        .filter-section { margin-bottom: 20px; text-align: center; }
+        .filter-label { font-weight: bold; margin-bottom: 10px; display: block; color: #555; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .filter-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        
+        .filter-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid var(--honey-gold);
+            background: white;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+            color: var(--honey-gold);
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--honey-gold);
+            color: white;
+            box-shadow: 0 4px 10px rgba(212, 160, 23, 0.3);
+        }
+
+        /* Search Bar */
+        .search-container { text-align: center; margin-bottom: 40px; }
+        #searchBar { 
+            padding: 12px 20px; 
+            width: 100%; 
+            max-width: 400px; 
+            border-radius: 30px; 
+            border: 1px solid #ddd; 
+            outline: none;
+        }
+
+        /* Product Grid */
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 25px; 
+        }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f9f5e0;
+        }
+        .card:hover { transform: translateY(-8px); }
+
+        .tag-container { display: flex; gap: 5px; margin-bottom: 10px; }
+        .tag { font-size: 10px; padding: 3px 8px; border-radius: 10px; background: #eee; text-transform: uppercase; font-weight: bold; }
+        .tag.benefit { background: #fdf2d1; color: #947600; }
+        .tag.fragrance { background: #e8f5e9; color: #2e7d32; }
+
+        /* Price Table Style */
+        .price-table {
+            background: #fffdf9;
+            border-radius: 15px;
+            margin: 15px 0;
+            overflow: hidden;
+            border: 1px solid #f3ebd1;
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid #f3ebd1;
+        }
+        .price-row:last-child { border-bottom: none; }
+        
+        .platform-info { display: flex; flex-direction: column; }
+        .platform-name { font-size: 11px; color: #888; text-transform: uppercase; font-weight: bold; }
+        .price-amt { font-size: 16px; font-weight: bold; color: #333; }
+        .price-amt.low-price { color: #27ae60; }
+
+        /* Direct Shop Buttons */
+        .shop-now-btn {
+            padding: 6px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: white;
+            transition: 0.2s;
+        }
+        .amazon-btn { background: var(--amazon-orange); color: #000; }
+        .nykaa-btn { background: var(--nykaa-pink); }
+        .blinkit-btn { background: var(--blinkit-yellow); color: #000; }
+        .shop-now-btn:hover { opacity: 0.8; transform: scale(1.05); }
+
+        .official-link {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--honey-gold);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Back to Home Button Styling */
+.back-home-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: white;
+    color: #333;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.back-home-btn:hover {
+    transform: translateX(5px);
+    background: var(--petal-pink, #F9D6E1); /* Uses your existing pink or a default */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+/* Hide text on small mobile screens to save space */
+@media (max-width: 480px) {
+    .home-text { display: none; }
+    .back-home-btn { padding: 10px; border-radius: 50%; }
+}
+    </style>
+</head>
+<body>
+<a href="index.html" class="back-home-btn">
+    <span class="home-icon">🏠</span>
+    <span class="home-text">Home</span>
+</a>
+<div class="container">
+    <h1>Body Care Studio ✨</h1>
+    <p class="subtitle">Silky Smooth Skin at the Best Prices Online</p>
+
+    <div class="filter-section">
+        <span class="filter-label">1. Shop by Benefit</span>
+        <div class="filter-group">
+            <button class="filter-btn active" onclick="filterBy('benefit', 'All', this)">All</button>
+            <button class="filter-btn" onclick="filterBy('benefit', 'Deep Hydration', this)">Hydration</button>
+            <button class="filter-btn" onclick="filterBy('benefit', 'Brightening', this)">Brightening</button>
+            <button class="filter-btn" onclick="filterBy('benefit', 'Exfoliating', this)">Exfoliating</button>
+        </div>
+    </div>
+
+    <div class="filter-section">
+        <span class="filter-label">2. Shop by Fragrance</span>
+        <div class="filter-group">
+            <button class="filter-btn active" onclick="filterBy('fragrance', 'All', this)">All</button>
+            <button class="filter-btn" onclick="filterBy('fragrance', 'Floral', this)">Floral</button>
+            <button class="filter-btn" onclick="filterBy('fragrance', 'Fruity', this)">Fruity</button>
+            <button class="filter-btn" onclick="filterBy('fragrance', 'Unscented', this)">Unscented</button>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchBar" placeholder="Search brands (e.g. Nivea, Vaseline)..." onkeyup="searchProducts()">
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+</div>
+
+<script>
+    const products = [
+        { 
+            name: "Nivea Body Milk (Shea Butter)", 
+            benefit: "Deep Hydration", 
+            fragrance: "Floral", 
+            amazon: 350, nykaa: 380, blinkit: 340,
+            amazonUrl: "https://amzn.to/example",
+            nykaaUrl: "https://www.nykaa.com",
+            blinkitUrl: "https://blinkit.com",
+            officialUrl: "https://www.nivea.in"
+        },
+        { 
+            name: "Vaseline Healthy Bright Vitamin", 
+            benefit: "Brightening", 
+            fragrance: "Fruity", 
+            amazon: 420, nykaa: 450, blinkit: 420,
+            amazonUrl: "https://amzn.to/example",
+            nykaaUrl: "https://www.nykaa.com",
+            blinkitUrl: "https://blinkit.com",
+            officialUrl: "https://www.vaseline.com"
+        },
+        { 
+            name: "Minimalist 5% Niacinamide Body Lotion", 
+            benefit: "Exfoliating", 
+            fragrance: "Unscented", 
+            amazon: 499, nykaa: 499, blinkit: 510,
+            amazonUrl: "https://amzn.to/example",
+            nykaaUrl: "https://www.nykaa.com",
+            blinkitUrl: "https://blinkit.com",
+            officialUrl: "https://beminimalist.co"
+        },
+        { 
+            name: "Parachute Advansed Deep Nourish", 
+            benefit: "Deep Hydration", 
+            fragrance: "Floral", 
+            amazon: 180, nykaa: 210, blinkit: 175,
+            amazonUrl: "https://amzn.to/example",
+            nykaaUrl: "https://www.nykaa.com",
+            blinkitUrl: "https://blinkit.com",
+            officialUrl: "https://www.parachuteadvansed.com"
+        },
+        { 
+            name: "Dr. Sheth's Tea Tree & Lactic Acid", 
+            benefit: "Exfoliating", 
+            fragrance: "Unscented", 
+            amazon: 399, nykaa: 399, blinkit: 380,
+            amazonUrl: "https://amzn.to/example",
+            nykaaUrl: "https://www.nykaa.com",
+            blinkitUrl: "https://blinkit.com",
+            officialUrl: "https://www.drsheths.com"
+        }
+    ];
+
+    let currentBenefit = 'All';
+    let currentFragrance = 'All';
+
+    function displayProducts() {
+        const grid = document.getElementById('productGrid');
+        const filtered = products.filter(p => {
+            const benefitMatch = currentBenefit === 'All' || p.benefit === currentBenefit;
+            const fragMatch = currentFragrance === 'All' || p.fragrance === currentFragrance;
+            return benefitMatch && fragMatch;
+        });
+
+        grid.innerHTML = filtered.map(p => {
+            const lowest = Math.min(p.amazon, p.nykaa, p.blinkit);
+
+            return `
+            <div class="card">
+                <div class="tag-container">
+                    <span class="tag benefit">${p.benefit}</span>
+                    <span class="tag fragrance">${p.fragrance}</span>
+                </div>
+                <h3>${p.name}</h3>
+                
+                <div class="price-table">
+                    <div class="price-row">
+                        <div class="platform-info">
+                            <span class="platform-name">Amazon</span>
+                            <span class="price-amt ${p.amazon === lowest ? 'low-price' : ''}">₹${p.amazon}</span>
+                        </div>
+                        <a href="${p.amazonUrl}" target="_blank" class="shop-now-btn amazon-btn">Buy</a>
+                    </div>
+
+                    <div class="price-row">
+                        <div class="platform-info">
+                            <span class="platform-name">Nykaa</span>
+                            <span class="price-amt ${p.nykaa === lowest ? 'low-price' : ''}">₹${p.nykaa}</span>
+                        </div>
+                        <a href="${p.nykaaUrl}" target="_blank" class="shop-now-btn nykaa-btn">Buy</a>
+                    </div>
+
+                    <div class="price-row">
+                        <div class="platform-info">
+                            <span class="platform-name">Blinkit</span>
+                            <span class="price-amt ${p.blinkit === lowest ? 'low-price' : ''}">₹${p.blinkit}</span>
+                        </div>
+                        <a href="${p.blinkitUrl}" target="_blank" class="shop-now-btn blinkit-btn">Buy</a>
+                    </div>
+                </div>
+
+                <a href="${p.officialUrl}" target="_blank" class="official-link">Visit Official Brand Site →</a>
+            </div>
+        `}).join('');
+    }
+
+    function filterBy(type, value, btn) {
+        const buttons = btn.parentElement.querySelectorAll('.filter-btn');
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if(type === 'benefit') currentBenefit = value;
+        if(type === 'fragrance') currentFragrance = value;
+        
+        displayProducts();
+    }
+
+    function searchProducts() {
+        const query = document.getElementById('searchBar').value.toLowerCase();
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            const name = card.querySelector('h3').innerText.toLowerCase();
+            card.style.display = name.includes(query) ? 'flex' : 'none';
+        });
+    }
+
+    displayProducts();
+</script>
+
+</body>
+</html>
